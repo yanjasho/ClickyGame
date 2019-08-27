@@ -14,15 +14,38 @@ const picArray = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9]
 class Pics extends Component {
 
     state = {
-      score: 0
+      score: 0,
+      usedPics:[]
     };
 
-    scoreCount = event =>{
-      event.preventDefault();
-      this.setState ({
-        score: this.state.score+1
-      })
+    renderImage = (prop) =>{
+        
+        return (
+            <div key={prop}>
+                <img src={prop} alt="flower" width="300" height="300" onClick={this.scoreCount.bind(this, prop)} />
+            </div>
+        )
+    }
 
+    renderImages = () => picArray.map(this.renderImage)
+    
+    scoreCount = (prop, event) =>{
+
+        event.preventDefault();
+        
+        if(this.state.usedPics.indexOf(prop)>-1){
+            this.setState ({
+                score: 0,
+                usedPics:[]
+            })
+        }
+        else{
+           this.state.usedPics.push(prop)
+           this.setState ({
+               score: this.state.score+1
+            })
+        }
+        
         let currentIndex = picArray.length
         let temporaryValue
         let randomIndex
@@ -37,45 +60,15 @@ class Pics extends Component {
         }
         return picArray;
     }
-
+    
     render() {
         return (
             <div>
                 <div>{this.state.score}</div>
                 <div className="row">
-                    <div className="col">
-                        <img src={picArray[0]} alt="flower" width="300" height="300" onClick={this.scoreCount}/>
-                    </div>
-                    <div className="col">
-                        <img src={picArray[1]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                    <div className="col">
-                        <img src={picArray[2]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
+                    {this.renderImages()}
                 </div>
-                <div className="row">
-                    <div className="col">
-                        <img src={picArray[3]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                    <div className="col">
-                        <img src={picArray[4]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                    <div className="col">
-                        <img src={picArray[5]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <img src={picArray[6]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                    <div className="col">
-                        <img src={picArray[7]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                    <div className="col">
-                        <img src={picArray[8]} alt="flower" width="300" height="300" onClick={this.scoreCount}/> 
-                    </div>
-                </div>
-            </div>
+            </div> 
         )
     }
 }

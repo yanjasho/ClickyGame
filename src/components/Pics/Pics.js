@@ -15,14 +15,16 @@ class Pics extends Component {
 
     state = {
       score: 0,
+      wins: 0,
+      loses: 0,
       usedPics:[]
     };
 
     renderImage = (prop) =>{
         
         return (
-            <div key={prop}>
-                <img src={prop} alt="flower" width="300" height="300" onClick={this.scoreCount.bind(this, prop)} />
+            <div className = "col" key={prop}>
+                <img src={prop} alt="flower" width="250" height="250" onClick={this.scoreCount.bind(this, prop)} />
             </div>
         )
     }
@@ -36,6 +38,7 @@ class Pics extends Component {
         if(this.state.usedPics.indexOf(prop)>-1){
             this.setState ({
                 score: 0,
+                loses: this.state.loses+1,
                 usedPics:[]
             })
         }
@@ -44,6 +47,13 @@ class Pics extends Component {
            this.setState ({
                score: this.state.score+1
             })
+            if(this.state.score===8){
+                this.setState ({
+                    score: 0,
+                    wins: this.state.wins+1,
+                    usedPics:[]
+                })
+            }
         }
         
         let currentIndex = picArray.length
@@ -63,8 +73,11 @@ class Pics extends Component {
     
     render() {
         return (
-            <div>
-                <div>{this.state.score}</div>
+            <div className="container">
+                <div>Your score: {this.state.score}</div>
+                <div>Wins: {this.state.wins}</div>
+                <div>Loses: {this.state.loses}</div>
+                <br />
                 <div className="row">
                     {this.renderImages()}
                 </div>
